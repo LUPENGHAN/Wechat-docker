@@ -1,4 +1,4 @@
-version: '1.0'
+version: '1.1'
 
 services:
   wechat:
@@ -6,13 +6,15 @@ services:
     build: .
     image: wechat-appimage
     ports:
-      - "6080:6080"         # noVNC 网页访问端口
-    shm_size: "2g"          # 必须，加大共享内存，避免卡顿
+      - "6080:6080"
+    shm_size: "2g"
     restart: unless-stopped
     volumes:
-      - ./data:/root        # 持久化微信配置文件（可选）
+      - ./data:/root
     environment:
       - DISPLAY=:0
-      - DISPLAY_RESOLUTION=1440x900x24
+      - GTK_IM_MODULE=fcitx
+      - QT_IM_MODULE=fcitx
+      - XMODIFIERS=@im=fcitx
+      - VNC_PASSWORD=wechat123
 
-    command: ["/opt/startup.sh"]   # ✅ 关键行：显式设定启动脚本
